@@ -1,9 +1,10 @@
 # Dynamic Mapping System
-This project provides a flexible and extensible mapping system for converting between various reservation models (e.g., Google, Booking, etc.) and the internal DIRS21 data model. It enables seamless data transformation across different sources and targets with minimal boilerplate.
+This project provides a flexible and extensible mapping system for converting between various reservation models (e.g., Google, Booking, etc.) and the internal DIRS21 data model. The mapping logic is not limited to the `Reservation` model. It's also possible to implement mappings for other models, such as `Room` or any other domain-specific entity.
+It enables seamless data transformation across different sources and targets with minimal changes.
 
 # How to Add a New Mapper
-1. Create a new folder for the data model inside the MappingSystem.Models project (e.g., `/Booking`).
-2. Add a new Reservation class defining the relevant properties for that reservation model.
+1. Create a new folder for the data model inside the `MappingSystem.Models` project (e.g., `/Booking`).
+2. Add a new `Reservation` class defining the relevant properties for that reservation model.
 3. Ensure the namespace of the new data model class aligns with the reservation type (e.g., `Booking`).
 4. In the `MappingSystem.Mappers` project, add a new folder under the Reservations folder corresponding to your model (e.g., `/Booking`).
 5. Add new mapper classes under this folder to handle conversions from DIRS21 model to your model and vice versa.
