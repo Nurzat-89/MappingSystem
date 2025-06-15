@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MappingSystem.Core\MappingSystem.Core.csproj" />
+    <ProjectReference Include="..\MappingSystem.Mappers\MappingSystem.Mappers.csproj" />
+    <ProjectReference Include="..\MappingSystem.Models\MappingSystem.Models.csproj" />
+  </ItemGroup>
+
+</Project>
