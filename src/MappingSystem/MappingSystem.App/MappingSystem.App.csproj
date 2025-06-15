@@ -8,9 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="8.3.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MappingSystem.Core\MappingSystem.Core.csproj" />
     <ProjectReference Include="..\MappingSystem.Mappers\MappingSystem.Mappers.csproj" />
-    <ProjectReference Include="..\MappingSystem.Models\MappingSystem.Models.csproj" />
   </ItemGroup>
 
 </Project>

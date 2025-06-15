@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\MappingSystem.Models\MappingSystem.Models.csproj" />
-  </ItemGroup>
-
 </Project>
