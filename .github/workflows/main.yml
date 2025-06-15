@@ -18,10 +18,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore Dependencies
-        run: dotnet restore  
-
-      - name: Restore Dependencies
-        run: dotnet restore
+        run: dotnet restore src/MappingSystem/MappingSystem.sln
 
       - name: Build Solution
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build src/MappingSystem/MappingSystem.sln --no-restore --configuration Release
