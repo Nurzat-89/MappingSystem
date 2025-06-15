@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MappingSystem.Core\MappingSystem.Core.csproj" />
     <ProjectReference Include="..\MappingSystem.Mappers\MappingSystem.Mappers.csproj" />
+    <ProjectReference Include="..\MappingSystem.Models\MappingSystem.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using MappingSystem.Core;
+using System.Reflection;
 
 namespace MappingSystem.App
 {
@@ -25,7 +26,18 @@ namespace MappingSystem.App
                 TotalNumberOfGuests = 1,
                 ReservationCode = "123"
             };
-            var googleModel = mapper.Map(dirs21ModelSource, sourceType: "Model.Reservation", targetType: "Google.Reservation");
+            try
+            {
+                var googleModel = mapper.Map(dirs21ModelSource, sourceType: "Model.Reservation", targetType: "Google.Reservation");
+                WriteProperties(googleModel);
+                WriteLine("Mapping Model.Reservation -> Google.Reservation succeeded", ConsoleColor.Green);
+                Console.WriteLine();
+            }
+            catch (Exception ex)
+            {
+                WriteLine($"Error mapping Model.Reservation -> Google.Reservation: {ex.Message}", ConsoleColor.Red);
+            }
+
 
             var googleModelSource = new Google.Reservation
             {
@@ -39,10 +51,18 @@ namespace MappingSystem.App
                 NumberOfGuests = 1,
                 Code = "123"
             };
-            
-            var dirs21Model = mapper.Map(googleModelSource, sourceType: "Google.Reservation", targetType: "Model.Reservation");
-            
-            Console.WriteLine("Hello, World!");
+
+            try
+            {
+                var dirs21Model = mapper.Map(googleModelSource, sourceType: "Google.Reservation", targetType: "Model.Reservation");
+                WriteProperties(dirs21Model);
+                WriteLine("Mapping Google.Reservation -> Model.Reservation succeeded", ConsoleColor.Green);
+                Console.WriteLine();
+            }
+            catch (Exception ex)
+            {
+                WriteLine($"Error mapping Google.Reservation -> Model.Reservation: {ex.Message}", ConsoleColor.Red);
+            }
         }
 
         private static void RegisterTypes()
@@ -51,11 +71,13 @@ namespace MappingSystem.App
             try
             {
                 var builder = new ContainerBuilder();
+
+                // Load the Mappers assembly manually
+                var assemblyPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MappingSystem.Mappers.dll");
+                var mappersAssembly = Assembly.LoadFrom(assemblyPath);
                 
-                // Register all types implementing IMapper from MappingSystem.Mappers assembly
-                builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies()
-                        .Where(x => x.FullName.Split(',')[0] == "MappingSystem.Mappers").ToArray())
-                    .Where(t => typeof(IMapper).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+                builder.RegisterAssemblyTypes(mappersAssembly)
+                    .Where(t => typeof(IMapper).IsAssignableFrom(t) && t.IsClass && !t.IsAbstract)
                     .As<IMapper>();
 
                 builder.RegisterType<MapHandler>();
@@ -68,6 +90,48 @@ namespace MappingSystem.App
                 scope?.Dispose();
                 throw;
             }
+        }
+
+        private static void WriteLine(string message, ConsoleColor color)
+        {
+            var previousColor = Console.ForegroundColor;
+            Console.ForegroundColor = color;
+            Console.WriteLine(message);
+            Console.ForegroundColor = previousColor;
+        }
+
+        private static void WriteProperties(object data)
+        {
+            if (data == null)
+            {
+                WriteLine("Object is null", ConsoleColor.Yellow);
+                return;
+            }
+
+            var type = data.GetType();
+            WriteLine($"--- Mapped fields of {type.FullName} ---", ConsoleColor.Cyan);
+
+            var props = type.GetProperties();
+            foreach (var prop in props)
+            {
+                object value = null;
+                try
+                {
+                    value = prop.GetValue(data);
+                }
+                catch
+                {
+                    value = "[unavailable]";
+                }
+
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write($"{prop.Name}: ");
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine(value ?? "null");
+            }
+
+            Console.ResetColor();
+            Console.WriteLine();
         }
     }
 }
