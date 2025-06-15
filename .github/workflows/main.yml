@@ -22,3 +22,9 @@ jobs:
 
       - name: Build Solution
         run: dotnet build src/MappingSystem/MappingSystem.sln --no-restore --configuration Release
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Tests
+        uses: dotnet test test/MappingSystem.Tests/MappingSystem.Tests.csproj --no-build --verbosity normal
