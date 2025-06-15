@@ -38,4 +38,4 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Run Tests
-        uses: dotnet test test/MappingSystem.Tests/MappingSystem.Tests.csproj --no-build --verbosity normal
+        run: dotnet test test/MappingSystem.Tests/MappingSystem.Tests.csproj --no-build --verbosity normal
