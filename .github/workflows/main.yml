@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      solution-path: ${{ steps.set-path.outputs.solution }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -23,7 +25,8 @@ jobs:
       - name: Build Solution
         run: dotnet build src/MappingSystem/MappingSystem.sln --no-restore --configuration Release
 
-  tests:
+  test:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
